@@ -1,0 +1,84 @@
+---
+title: "Linear discriminant analysis"
+date: "`r Sys.Date()`"
+---
+
+```{r knitr-init, echo=F}
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r packages, results='hide'}
+.packages <- c("ggcorrplot", "GGally", "MASS", "caret")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+```{r data-loading, results='hide'}
+#source("data-loading.R")
+```
+
+# Correlation
+
+```{r correlation}
+# Correlation matrix
+colnames(data.peaks) <- gsub("psa.urine.", "", colnames(data.peaks))
+ggcorr(data.peaks, hjust = 0.75, size = 5, layout.exp = 1, label = TRUE, label_size = 3, label_round = 2)
+```
+
+It can be observed that most of the peak areas are strongly correlated.
+
+# Principal components analysis
+
+Since we have a small sample size and a lot of variables highly correlated, we are going to use principal components to reduce the dimensionality of data. 
+Another advantage of principal components is that the new variables (principal components) are uncorrelated.
+
+Principal components is a statistical method to reduce the dimensionality of data transforming the original variables (usually correlated) into a new set of linearly uncorrelated variables. The first principal component is the linear combination of variables that explain the highest variability in data (maximum variance), and the second principal component is the linear combination of variables with the maximum variance that is orthogonal to the first one (Hassel, T. et al 2009)<sup>1</sup>.
+
+```{r principal-components}
+result.pca <- prcomp(data.peaks, center = T, scale = T)
+# Add principal components coordinates to a data frame  
+data.pca <- as.data.frame(result.pca$x)
+# Add diagnosis to data frame
+data.pca$Diagnosis <- data$Diagnosis
+# Plot data on the two firs principal components
+p <- ggplot(data = data.pca, aes(x = PC1, y = PC2, colour = Diagnosis, shape = Diagnosis)) +
+  geom_point()
+p
+```
+
+Using the two first principal components, BPH and PC individuals are alomost linearly separable.
+
+# Linear discriminant analysis
+
+Linear Discriminant Analysis (LDA) is a statistical method that tries to find a set of discriminant functions, all of them uncorrelated linear combinations of the variables, that maximize the difference between classes and separate the classes the best (Hassel, T. et al 2009)<sup>1</sup>. The number of discriminant functions created is the number of classes minus one, in our case just one.
+
+LDA was applied to the principal components since the original variables were highly correlated. Normality and homogeneity of variances of the principal components are required but we can not check this requirements with such a small sample.
+
+We validate the model with leave-one-out crossvalidation.
+
+```{r linear-discriminant-analysis}
+# Linear discriminant analysis
+set.seed(123)
+result.lda <- lda(Diagnosis ~ ., data = data.pca[, -7], CV = T)
+performance <- confusionMatrix(result.lda$class, data.pca$Diagnosis)
+```
+
+## Confusion matrix of the classification
+```{r confusion-matrix-lda}
+pander(performance$table)
+```
+
+## Performance of the classification
+```{r performance-lda}
+pander(performance$byClass)
+```
+
+We get a good sentitivity and specificity but with such a small sample the risk of model overfitting is very high, so we can not validate the model.
+
+
+# References
+1. Hassel, T, Tibshirani, R and Friedman, J. The elements of statistical learning: Data mining, inference, and prediction. Second edition ed. New York: Springer; 2009.

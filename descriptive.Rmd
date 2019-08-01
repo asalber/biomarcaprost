@@ -1,0 +1,63 @@
+---
+title: "Descriptive statistics"
+date: "`r Sys.Date()`"
+---
+
+```{r knitr-init, echo=F}
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r packages, results='hide'}
+.packages <- c("reshape2")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+```{r data-loading, results='hide'}
+source("data-loading.R")
+```
+
+# Means and standard deviations
+
+```{r descriptive-statistics-groups}
+melted.data <- melt(data[, c("Diagnosis", vars=psaVars)])
+colnames(melted.data)[2] <- "Variable" 
+statistics <- melted.data %>% group_by(Variable, Diagnosis) %>% 
+  summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T)) %>%
+    mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se)
+pander(statistics, split.cells = 1)
+``` 
+
+```{r means-plot}
+melted.data <- melt(data[, c("Diagnosis", vars=psaPeaks)])
+colnames(melted.data)[2] <- "Peak"
+# Rename peaks
+melted.data$Peak <- as.factor(as.numeric(gsub("psa.urine.peak", "", melted.data$Peak)))
+p <- ggplot(data = melted.data, aes(x = Peak, y = value, colour=Diagnosis)) + 
+  geom_point(position=position_dodge(width=0.5)) + 
+  stat_summary(fun.y="mean", size=3, shape=1, geom="point", position=position_dodge(width=0.5)) +
+  ggtitle("Percentage of area covered by peaks of urine PSA") +
+  ylab("% Area") +
+  theme(plot.title = element_text(hjust = 0.5))
+p
+```
+
+```{r confidence-intervals-means}
+# Compute statistics
+statistics <- melted.data %>% group_by(Peak, Diagnosis) %>% 
+  summarise(n = n(), mean = mean(value, na.rm = T), sd = sd(value, na.rm = T)) %>%
+    mutate(se = sd/sqrt(n), lower.ci = mean-qt(1-(0.05/2), n-1)*se, upper.ci = mean+qt(1-(0.05/2), n-1)*se)
+# Plot of means by stages
+ggplot(data = statistics, aes(x = Peak, y = mean, colour = Diagnosis, shape = Diagnosis)) +
+  geom_pointrange(aes(ymin = lower.ci, ymax = upper.ci), position = position_dodge(width = 0.5)) +
+  ggtitle("Confidence intervals for the means of areas covered by peaks of blood PSA") +
+   ylab("% Area means") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+Due to the small sample size, there are no significant differences between the means of BPH and PC patients at any peak.
+However it could be observed that the sample means of peaks 1, 2 and 4 are greater in PC patients than in BPH ones, while is smaller in the rest of peaks. 

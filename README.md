@@ -1,2 +1,7 @@
-# biomarcaprost
-Estudio de nuevos biomarcadores en sangre y orina para la detección del cáncer de próstata.
+# New biomarkers for detecting porstate cancer
+
+Study of new blood and urine biomarkers for detecting prostate cancer and distinguish it from benign prostatic hyperplasia.
+
+# Author
+
+Alfredo Sánchez Alberca (asalber@ceu.es)

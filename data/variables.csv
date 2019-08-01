@@ -1,0 +1,17 @@
+Name,urine spectrum by capillary electrophoresis,Type,Values (units),Role
+Id,Patient code,Numerical discrete,,No clinical relevance
+Diagnosis,Patient diagnose,Categorical,"(PC, BPH)",Response
+Treatment,Treatment used to get the sample,Categorical,"(Biopsy, Prostate massage)",Explanatory 
+psa.serum,PSA in blood serum,Numerical continuous,ng/ml,Explanatory 
+psa.urine.pre,PSA in urine before applying treatment,Numerical continuous,ng/ml,Explanatory 
+psa.urine.post,PSA in urine after applying treatment,Numerical continuous,ng/ml,Explanatory 
+psa.urine.peak1,Percentage of area covered by peak 1 in urine capillary electrophoresis spectrum,Numerical continuous,0-100%,Explanatory 
+psa.urine.peak2,Percentage of area covered by peak 2 in urine capillary electrophoresis spectrum,Numerical continuous,1-100%,Explanatory 
+psa.urine.peak3,Percentage of area covered by peak 3 in urine capillary electrophoresis spectrum,Numerical continuous,2-100%,Explanatory 
+psa.urine.peak4,Percentage of area covered by peak 4 in urine capillary electrophoresis spectrum,Numerical continuous,3-100%,Explanatory 
+psa.urine.peak5,Percentage of area covered by peak 5 in urine capillary electrophoresis spectrum,Numerical continuous,4-100%,Explanatory 
+psa.urine.peak6,Percentage of area covered by peak 6 in urine capillary electrophoresis spectrum,Numerical continuous,5-100%,Explanatory 
+psa.urine.peak7,Percentage of area covered by peak 7 in urine capillary electrophoresis spectrum,Numerical continuous,6-100%,Explanatory 
+psa.urine.peak8,Percentage of area covered by peak 8 in urine capillary electrophoresis spectrum,Numerical continuous,7-100%,Explanatory 
+psa.urine.peak9,Percentage of area covered by peak 9 in urine capillary electrophoresis spectrum,Numerical continuous,8-100%,Explanatory 
+psa.urine.peak10,Percentage of area covered by peak 10 in urine capillary electrophoresis spectrum,Numerical continuous,9-100%,Explanatory 

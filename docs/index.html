@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2019-08-01" />
+
+<title>Biomarcaprost: New biomarkers for prostate cancer detection</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2.10/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biomarcaprost: New biomarkers for prostate cancer detection</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Summary</a>
+</li>
+<li>
+  <a href="descriptive.html">Descriptive</a>
+</li>
+<li>
+  <a href="linear-discriminant-analysis.html">Discriminant analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="http://aprendeconalf.es/">
+    <span class="fa fa-home fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Biomarcaprost: New biomarkers for prostate cancer detection</h1>
+<h4 class="date">2019-08-01</h4>
+
+</div>
+
+
+<div id="authors" class="section level1">
+<h1>Authors</h1>
+<ul>
+<li>Mercedes de Frutos Gómez (<a href="mailto:mfrutos@iqog.csic.es">mfrutos@iqog.csic.es</a>)</li>
+<li>Alfredo Sánchez Alberca (<a href="mailto:asalber@ceu.es">asalber@ceu.es</a>)</li>
+</ul>
+</div>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<p>Prostate cancer (PCa) is the most common cancer in European men. Early diagnosis markedly increases survival. Concentration of prostate specific antigen (PSA) in serum is the PCa marker currently used in clinics. It has limited selectivity, mainly due to high PSA levels in benign prostate hyperplasia (BPH). Better PCa biomarkers are needed to avoid unnecessary biopsies and to decrease health expenses.</p>
+<p>This study aims to find new prostate cancer biomarkers with enhanced selectivity, low cost, and easy to implement into clinical praxis.</p>
+<p>To get this objective, research in this proposal is based on glycosylation modifications of some proteins linked to cancer. Differences in two glycoproteins (PSA and alfa 1-acid glycoprotein, AGP) between healthy individuals and patients will be studied. New methodologies based on glycomics and microfluidics in capillaries to observe glycoprotein modifications will be developed. Patterns of isoforms (peaks separated by capillary electrophoresis, CE) of PSA and AGP will be the key tool to compare samples from different individuals. To make possible this comparison, development of several methods for the different steps of the analysis (glycoprotein isolation from urine and serum, CE separation, affinity to lectins, and enhanced detection) will be performed. Statistical analysis of the CE patterns for PSA and/or AGP isolated from serum and/or urine for healthy individuals, BPH patients, and PCa patients will be performed. HPLC-MS will provide structural information about glycoprotein alterations.</p>
+</div>
+<div id="objetives" class="section level1">
+<h1>Objetives</h1>
+<ul>
+<li>To find out new prostate cancer biomarkers with enhanced selectivity, low cost, and easy to implement into clinical praxis.</li>
+<li>To implement a method to diagnose prostate cancer using the new biomarkers.</li>
+</ul>
+</div>
+<div id="type-of-study" class="section level1">
+<h1>Type of study</h1>
+<p>Analityc observational cross-sectional and comparative study.</p>
+</div>
+<div id="inclusion-criteria" class="section level1">
+<h1>Inclusion criteria</h1>
+<p>Individuals with prostate cancer or benign prostatic hyperplasia.</p>
+</div>
+<div id="variables" class="section level1">
+<h1>Variables</h1>
+<div id="htmlwidget-2331f1ff7d9e40923966" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2331f1ff7d9e40923966">{"x":{"filter":"none","data":[["Id","Diagnosis","Treatment","psa.serum","psa.urine.pre","psa.urine.post","psa.urine.peak1","psa.urine.peak2","psa.urine.peak3","psa.urine.peak4","psa.urine.peak5","psa.urine.peak6","psa.urine.peak7","psa.urine.peak8","psa.urine.peak9","psa.urine.peak10"],["Patient code","Patient diagnose","Treatment used to get the sample","PSA in blood serum","PSA in urine before applying treatment","PSA in urine after applying treatment","Percentage of area covered by peak 1 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 2 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 3 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 4 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 5 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 6 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 7 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 8 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 9 in urine capillary electrophoresis spectrum","Percentage of area covered by peak 10 in urine capillary electrophoresis spectrum"],["Numerical discrete","Categorical","Categorical","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous","Numerical continuous"],["","(PC, BPH)","(Biopsy, Prostate massage)","ng/ml","ng/ml","ng/ml","0-100%","1-100%","2-100%","3-100%","4-100%","5-100%","6-100%","7-100%","8-100%","9-100%"],["No clinical relevance","Response","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory ","Explanatory "]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Name<\/th>\n      <th>urine.spectrum.by.capillary.electrophoresis<\/th>\n      <th>Type<\/th>\n      <th>Values..units.<\/th>\n      <th>Role<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"ltip","order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="sample-size" class="section level1">
+<h1>Sample size</h1>
+<p>Total number of patients: 7</p>
+<table style="width:49%;">
+<colgroup>
+<col width="43%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Diagnosis</th>
+<th align="center">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Benign prostatic hyperplasia</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">Prostate cancer</td>
+<td align="center">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="glosary" class="section level1">
+<h1>Glosary</h1>
+<ul>
+<li>PSA: Prostate-Specific Antigen</li>
+<li>AGP: Acid glycoprotein</li>
+<li>BPH: Benign prostatic hyperplasia</li>
+<li>PC: Prostate cancer</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

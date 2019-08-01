@@ -1,0 +1,78 @@
+---
+title: "Biomarcaprost: New biomarkers for prostate cancer detection"
+date: "`r Sys.Date()`"
+---
+
+```{r knitr-init, echo=F}
+library(knitr)
+## Global options
+options(digits = 4)
+opts_chunk$set(echo=F, cache=T, prompt=F, tidy=T, comment=NA, message=F, warning=F, dev="png", dev.args=list(type="cairo"), dpi=300)
+```
+
+```{r packages, results='hide'}
+.packages <- c("DT")
+.installed <- .packages %in% installed.packages()
+if (length(.packages[!.installed])>0) install.packages(.packages[!.installed])
+lapply(.packages, require, character.only=T)
+```
+
+# Authors
+
+- Mercedes de Frutos Gómez ([mfrutos@iqog.csic.es](mailto:mfrutos@iqog.csic.es))
+- Alfredo Sánchez Alberca ([asalber@ceu.es](mailto:asalber@ceu.es))
+
+# Summary
+
+Prostate cancer (PCa) is the most common cancer in European men. Early diagnosis markedly increases survival.
+Concentration of prostate specific antigen (PSA) in serum is the PCa marker currently used in clinics.
+It has limited selectivity, mainly due to high PSA levels in benign prostate hyperplasia (BPH).
+Better PCa biomarkers are needed to avoid unnecessary biopsies and to decrease health expenses.
+
+This study aims to find new prostate cancer biomarkers with enhanced selectivity, low cost, and easy to implement into clinical praxis.
+
+To get this objective, research in this proposal is based on glycosylation modifications of some proteins linked to cancer. 
+Differences in two glycoproteins (PSA and alfa 1-acid glycoprotein, AGP) between healthy individuals and patients will be studied. New methodologies based on glycomics and microfluidics in capillaries to observe glycoprotein modifications will be developed. Patterns of isoforms (peaks separated by capillary electrophoresis, CE) of PSA and AGP will be the key tool to compare samples from different individuals. To make possible this comparison, development of several methods for the different steps of the analysis (glycoprotein isolation from urine and serum, CE separation, affinity to lectins, and enhanced detection) will be performed. 
+Statistical analysis of the CE patterns for PSA and/or AGP isolated from serum and/or urine for healthy individuals, BPH patients, and PCa patients will be performed. 
+HPLC-MS will provide structural information about glycoprotein alterations.
+
+# Objetives
+
+- To find out new prostate cancer biomarkers with enhanced selectivity, low cost, and easy to implement into clinical praxis.
+- To implement a method to diagnose prostate cancer using the new biomarkers.
+
+# Type of study 
+
+Analityc observational cross-sectional and comparative study.
+
+# Inclusion criteria
+
+Individuals with prostate cancer or benign prostatic hyperplasia.
+
+# Variables
+
+```{r variables}
+vars <- read.csv(file = "data/variables.csv", header = T, sep = ",")
+datatable(vars, rownames = F, escape=F, class = 'display', options = list(dom="ltip"))
+```
+
+# Sample size
+
+```{r data-loading}
+source("data-loading.R")
+```
+
+
+Total number of patients: `r nrow(data)`
+```{r sample-size-groups}
+# summary <- data %>% group_by(Diagnosis)
+countTable <- tbl_df(data) %>% count(Diagnosis)
+pander(countTable)
+```
+
+# Glosary
+
+- PSA: Prostate-Specific Antigen
+- AGP: Acid glycoprotein
+- BPH: Benign prostatic hyperplasia 
+- PC: Prostate cancer
